@@ -3,11 +3,45 @@
 <head>
     <meta charset="utf-8">
     <title>clrp example</title>
+    <style>
+        #left {
+            margin-right: 8em;
+        }
+
+        .input-label-top {
+            margin-top: 1.5em;
+        }
+
+        .label-top {
+            position: absolute;
+        }
+    </style>
 </head>
 
 <body>
-    <input class="clrp clrp-hex" value="#00ffff">
-    <input class="clrp clrp-rgb">
+    <label class="label-top" for="left">Left: <span id="test-left"></span></label>
+    <input id="left" class="clrp clrp-hex input-label-top" value="#00ffff">
+    <label class="label-top" for="right">Right: <span id="test-right"></span></label>
+    <input id="right" class="clrp clrp-rgb input-label-top">
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var clrpLeft = document.getElementById("left");
+            var clrpRight = document.getElementById("right");
+            var testLeft = document.getElementById("test-left");
+            var testRight = document.getElementById("test-right");
+            console.log(clrpLeft);
+        
+            clrpLeft.addEventListener('change', function() {
+                testLeft.innerText = clrpLeft.value;
+            });
+
+            clrpRight.addEventListener('change', function() {
+                testRight.innerText = clrpRight.value;
+            });
+        
+        });
+    </script>
     <script src="../clrp.js"></script>
 </body>
 

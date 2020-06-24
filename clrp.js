@@ -67,6 +67,7 @@ class CLRP {
                 text-align: center;
                 background-color: #dfdfdf;
                 border: solid 1px black;
+                z-index: 1;
             }
 
             .clrp-window input {
