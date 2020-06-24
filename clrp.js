@@ -70,29 +70,45 @@ class CLRP {
                 position: absolute;
                 display: inline-block;
                 text-align: center;
-                background-color: #dfdfdf;
+                background-color: #f4f4f5;
                 border: solid 1px black;
+                border-radius: 3px;
+                box-shadow: 1px 1px 1px;
                 z-index: 1;
             }
 
             .clrp-window input {
-                width: inherit;
+                box-sizing: border-box;
+                width: 100%;
                 margin: 0;
             }
 
             .clrp-window > .clrp-current {
-                width: inherit;
+                width: auto;
                 height: 5em;
                 border: solid 1px black;
                 background-color: hsl(var(--clrp-hue), var(--clrp-sat), var(--clrp-light));
             }
 
             .clrp-window input[type="range"]::-moz-range-track {
-                height: 15px;
+                height: 1.5em;
+                border: solid 1px black;
+            }
+
+            .clrp-window input[type="range"]::-webkit-slider-runnable-track {
+                height: 1.5em;
                 border: solid 1px black;
             }
 
             .clrp-hue-slider::-moz-range-track {
+                background: linear-gradient(to right,
+                    hsl(0, 100%, 50%), hsl(60, 100%, 50%),
+                    hsl(120, 100%, 50%), hsl(180, 100%, 50%),
+                    hsl(240, 100%, 50%), hsl(300, 100%, 50%),
+                    hsl(360, 100%, 50%));
+            }
+
+            .clrp-hue-slider::-webkit-slider-runnable-track {
                 background: linear-gradient(to right,
                     hsl(0, 100%, 50%), hsl(60, 100%, 50%),
                     hsl(120, 100%, 50%), hsl(180, 100%, 50%),
@@ -105,7 +121,19 @@ class CLRP {
                     hsl(0, 0%, 50%), hsl(var(--clrp-hue), 100%, var(--clrp-light)));
             }
 
+            .clrp-sat-slider::-webkit-slider-runnable-track {
+                background: linear-gradient(to right,
+                    hsl(0, 0%, 50%), hsl(var(--clrp-hue), 100%, var(--clrp-light)));
+            }
+
             .clrp-light-slider::-moz-range-track {
+                background: linear-gradient(to right,
+                    hsl(var(--clrp-hue), var(--clrp-sat), 0%),
+                    hsl(var(--clrp-hue), var(--clrp-sat), 50%),
+                    hsl(var(--clrp-hue), var(--clrp-sat), 100%));
+            }
+
+            .clrp-light-slider::-webkit-slider-runnable-track {
                 background: linear-gradient(to right,
                     hsl(var(--clrp-hue), var(--clrp-sat), 0%),
                     hsl(var(--clrp-hue), var(--clrp-sat), 50%),
@@ -127,7 +155,7 @@ class CLRPInput {
             this.setAttribute("style", "background-color: " + this.value + "; color: " + this.value + ";");
         });
 
-        // apply existing color or make default
+        // apply existing color value or make default
         var color = "#000000";
         if (this.element.hasAttribute("value")) {
             color = this.element.value;
