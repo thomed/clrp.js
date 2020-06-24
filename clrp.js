@@ -3,7 +3,11 @@
 var clrp;
 var clrpWindow = `
     <div class="clrp-window">
+        <div class="clrp-current" name="clrp-current"></div>
         <input name="clrp-text" type="text">
+        <input class="clrp-hue-slider" name="clrp-hue-slider" type="range" min="0" max="360" step="1">
+        <input class="clrp-light-slider" name="clrp-light-slider" type="range" min="0" max="100" step="1">
+        <input class="clrp-sat-slider" name="clrp-sat-slider" type="range" min="0" max="100" step="1">
         <button name="clrp-ok-btn">Okay</button>
         <button name="clrp-close-btn">Close</button>
     </div>
@@ -47,6 +51,7 @@ class CLRP {
     // add default styles to page head
     addStyles() {
         var style = document.createElement("style");
+        style.id = "clrp-style"
         var rules = `
             .clrp {
                 --color-value: #ff0000;
@@ -71,8 +76,40 @@ class CLRP {
             }
 
             .clrp-window input {
-                width: auto;
+                width: inherit;
                 margin: 0;
+            }
+
+            .clrp-window > .clrp-current {
+                width: inherit;
+                height: 5em;
+                border: solid 1px black;
+                background-color: hsl(var(--clrp-hue), var(--clrp-sat), var(--clrp-light));
+            }
+
+            .clrp-window input[type="range"]::-moz-range-track {
+                height: 15px;
+                border: solid 1px black;
+            }
+
+            .clrp-hue-slider::-moz-range-track {
+                background: linear-gradient(to right,
+                    hsl(0, 100%, 50%), hsl(60, 100%, 50%),
+                    hsl(120, 100%, 50%), hsl(180, 100%, 50%),
+                    hsl(240, 100%, 50%), hsl(300, 100%, 50%),
+                    hsl(360, 100%, 50%));
+            }
+
+            .clrp-sat-slider::-moz-range-track {
+                background: linear-gradient(to right,
+                    hsl(0, 0%, 50%), hsl(var(--clrp-hue), 100%, var(--clrp-light)));
+            }
+
+            .clrp-light-slider::-moz-range-track {
+                background: linear-gradient(to right,
+                    hsl(var(--clrp-hue), var(--clrp-sat), 0%),
+                    hsl(var(--clrp-hue), var(--clrp-sat), 50%),
+                    hsl(var(--clrp-hue), var(--clrp-sat), 100%));
             }
         `;
 
@@ -103,16 +140,26 @@ class CLRPInput {
     }
 
     setOpen(event) {
-//        this.classList.toggle("clrp-show");
         this.insertAdjacentHTML("afterend", clrpWindow);
         var cw = this.nextElementSibling;
         var text = cw.querySelector("input[name='clrp-text']");
+        var hueSlider = cw.querySelector("input[name='clrp-hue-slider");
+        var satSlider = cw.querySelector("input[name='clrp-sat-slider");
+        var lightSlider = cw.querySelector("input[name='clrp-light-slider");
         var okbtn = cw.querySelector("button[name='clrp-ok-btn']");
         var closebtn = cw.querySelector("button[name='clrp-close-btn']");
-//        console.log(cw);
-//        console.log(text);
-//        console.log(okbtn);
-//        console.log(cancelbtn);
+
+        // var because event listener context
+        var updateProperties = function() {
+            cw.style.setProperty("--clrp-hue", hueSlider.value);
+            cw.style.setProperty("--clrp-sat", satSlider.value + "%");
+            cw.style.setProperty("--clrp-light", lightSlider.value + "%");
+        };
+        updateProperties();
+
+        hueSlider.addEventListener('change', updateProperties);
+        satSlider.addEventListener('change', updateProperties);
+        lightSlider.addEventListener('change', updateProperties);
 
         text.value = this.value;
         text.addEventListener('change', function(e) {
