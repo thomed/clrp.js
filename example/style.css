@@ -3,14 +3,20 @@ body {
 }
 
 pre {
-    width: auto;
-    white-space: pre-wrap;
+    width: 100%;
     background-color: #eeeeee;
     padding: 0.5em;
+    border: solid 1px #d0d0d0;
+    font-family: monospace;
+    margin-bottom: 1em;
 }
 
-#left {
-    margin-right: 8em;
+.code > p {
+    margin: 0;
+}
+
+.docs > div {
+    margin-bottom: 2em;
 }
 
 .main-content {
@@ -20,17 +26,5 @@ pre {
 
 .main-content header {
     margin: 2em auto;
-}
-
-.main-content h1, h2, h3, h4, h5, h6 {
-    margin: 0;
     text-align: center;
-}
-
-.input-label-top {
-    margin-top: 1.5em;
-}
-
-.label-top {
-    position: absolute;
 }

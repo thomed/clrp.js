@@ -17,76 +17,49 @@
             </h5>
             <hr />
         </header>
-        <div>
-            <p>clrp.js is designed as a "drop in and forget about it" library.</p>
 
-            <p>
-                Once it is added to your page, you can set any &lt;input&gt; tags to be 
-                color pickers by simply adding the clrp class to the element:
-            </p>
-            <p>
-                <code>
-                    &lt;input class="clrp"&gt;
-                </code>
-            </p>
-            <input class="clrp">
+        <div class="docs">
+            <div id="installation">
+                <h3>Installation</h3>
+                <h5><u>Code:</u></h5>
+<pre><code>&lt;script src="clrp.js"&gt;
+&lt;input class="clrp"&gt;
+</code></pre>
+                <h5><u>Result:</u></h5>
+                <input class="clrp">
+            </div>
 
-            <p>
-                clrp inputs will trigger regular onchange events so you can react to 
-                the events just like normal inputs:
-            </p>
-            <p>
-                <pre>
-&lt;p id="text-display"&gt;&lt;/p&gt;
-&lt;input class="clrp" id="my-clrp"&gt;
+            <div id="basic-usage">
+                <h3>Basic Usage</h3>
+                <h5><u>Code:</u></h5>
+<pre><code>&lt;p id="my-text"&gt;Color:&lt;/p&gt;
+&lt;input class="clrp" id="my-clrp" value="#5500cc"&gt;
 &lt;script&gt;
-    var ptag = document.getElementById("text-display");
     var myClrp = document.getElementById("my-clrp");
-
+    var text = document.getElementById("my-text");
+    
     myClrp.addEventListener('change', function() {
-        ptag.innerText = "Color: " + myClrp.value;
-        ptag.style.color = myClrp.value;
+        text.innerText = "Color: " + myClrp.value;
+        text.style.color = myClrp.value;
     });
 &lt;/script&gt;
-                </pre>
-            </p>
+</code></pre>
+                <h5><u>Result:</u></h5>
+                <p id="my-text">Color:</p>
+                <input class="clrp" id="my-clrp" value="#5500cc">
+            </div>
 
-            <p id="text-display">Color:</p>
-            <input class="clrp" id="my-clrp">
-            <script>
-                var ptag = document.getElementById("text-display");
-                var myClrp = document.getElementById("my-clrp");
-                
-                myClrp.addEventListener('change', function() {
-                    ptag.innerText = "Color: " +  myClrp.value;
-                    ptag.style.color = myClrp.value;
-                });
-            </script>
         </div>
 
-        <!--
-        <label class="label-top" for="left">Left: <span id="test-left"></span></label>
-        <input id="left" class="clrp input-label-top" value="#00aaff">
-        <label class="label-top" for="right">Right: <span id="test-right"></span></label>
-        <input id="right" class="clrp input-label-top">
-        -->
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var clrpLeft = document.getElementById("left");
-            var clrpRight = document.getElementById("right");
-            var testLeft = document.getElementById("test-left");
-            var testRight = document.getElementById("test-right");
-        
-            clrpLeft.addEventListener('change', function() {
-                testLeft.innerText = clrpLeft.value;
-            });
+        var myClrp = document.getElementById("my-clrp");
+        var text = document.getElementById("my-text");
 
-            clrpRight.addEventListener('change', function() {
-                testRight.innerText = clrpRight.value;
-            });
-        
+        myClrp.addEventListener('change', function() {
+            text.innerText = "Color: " + myClrp.value;
+            text.style.color = myClrp.value;
         });
     </script>
     <script src="../clrp.js"></script>
