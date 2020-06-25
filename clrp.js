@@ -85,7 +85,7 @@ class CLRP {
 
             .clrp-window > .clrp-current {
                 width: auto;
-                height: 5em;
+                height: 8em;
                 border: solid 1px black;
                 background-color: hsl(var(--clrp-hue), var(--clrp-sat), var(--clrp-light));
             }
@@ -222,17 +222,20 @@ CLRP.hslRegex = /hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/g;
 CLRP.color2hex = function(c) {
     var color = CLRP.parseColor(c);
     if (color.format == "hex") {
-//        return "#" + color.r + color.g + color.b;
         return c;
     }
 
+    var hex;
     if (color.format == 'rgb') {
-
+        hex = CLRP.rgb2hex(color.r, color.g, color.b);
     }
     
     if (color.format == "hsl") {
-
+        rgb = CLRP.hsl2rgb(color.h, color.s, color.l);
+        hex = CLRP.rgb2hex(rgb.r, rgb.g, rgb.b);
     }
+
+    return `#${hex.r}${hex.g}${hex.b}`;
 };
 
 CLRP.color2hsl = function(c) {
@@ -241,31 +244,35 @@ CLRP.color2hsl = function(c) {
         return c;
     }
 
+    var hsl;
     if (color.format == 'rgb') {
-        var hsl = CLRP.rgb2hsl(color.r, color.g, color.b);
-        return `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+        hsl = CLRP.rgb2hsl(color.r, color.g, color.b);
     }
 
     if (color.format == 'hex') {
-
+        rgb = CLRP.hex2rgb(color.r, color.g, color.b);
+        hsl = CLRP.rgb2hsl(rgb.r, rgb.g, rgb.b);
     }
+
+    return `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
 };
 
 CLRP.color2rgb = function(c) {
     var color = CLRP.parseColor(c);
-
     if (color.format == 'rgb') {
         return c;
     }
 
+    var rgb;
     if (color.format == 'hsl') {
-        var r = CLRP.hsl2rgb(color.h, color.s, color.l);
-        return `rgb(${r.r}, ${r.g}, ${r.b})`;
+        rgb = CLRP.hsl2rgb(color.h, color.s, color.l);
     }
 
     if (color.format == 'hex') {
-
+        rgb = CLRP.hex2rgb(color.r, color.g, color.b);
     }
+
+    return `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
 };
 
 // adapted from hsl wikipedia page
@@ -345,11 +352,21 @@ CLRP.rgb2hsl = function(r, g, b) {
 }
 
 CLRP.rgb2hex = function(r, g, b) {
-
+    var result = {};
+    result.format = "hex";
+    result.r = r.toString(16);
+    result.g = g.toString(16);
+    result.b = b.toString(16);
+    return result;
 }
 
 CLRP.hex2rgb = function(hr, hg, hb) {
-
+//    return `rgb(${parseInt(hr, 16)}, ${parseInt(hg, 16)}, ${parseInt(hb, 16)})`;
+    var result = {};
+    result.format = "rgb";
+    result.r = parseInt(hr, 16);
+    result.g = parseInt(hg, 16);
+    result.b = parseInt(hb, 16);
 }
 
 CLRP.parseColor = function(color) {
