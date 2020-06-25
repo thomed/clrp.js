@@ -197,13 +197,6 @@ class CLRPInput {
             cw.style.setProperty("--clrp-sat", satSlider.value + "%");
             cw.style.setProperty("--clrp-light", lightSlider.value + "%");
             text.value = CLRP.color2hex(hsl);
-
-            // prevent circular event
-            if (event.srcElement !== text) {
-//                console.log(text);
-//                text.dispatchEvent(new Event('change'));
-            }
-            text.dispatchEvent(new Event('change'));
         };
         text.value = this.value;
         updatePropertiesFromText();
@@ -213,13 +206,7 @@ class CLRPInput {
         lightSlider.addEventListener('input', updatePropertiesFromSlider);
 
         text.addEventListener('change', function(e) {
-            // as long as somebody isn't inserting between window and button while
-            // window is open, this should be fine.
-            var c = this.parentElement.previousElementSibling;
-            c.value = text.value;
-            c.dispatchEvent(new Event('change'));
-
-//            updatePropertiesFromText(e);
+            updatePropertiesFromText(e);
         });
 
         okbtn.addEventListener('click', function(e) {
