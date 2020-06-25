@@ -6,8 +6,8 @@ var clrpWindow = `
         <div class="clrp-current" name="clrp-current"></div>
         <input name="clrp-text" type="text">
         <input class="clrp-hue-slider" name="clrp-hue-slider" type="range" min="0" max="360" step="1">
-        <input class="clrp-light-slider" name="clrp-light-slider" type="range" min="0" max="100" step="1">
         <input class="clrp-sat-slider" name="clrp-sat-slider" type="range" min="0" max="100" step="1">
+        <input class="clrp-light-slider" name="clrp-light-slider" type="range" min="0" max="100" step="1">
         <button name="clrp-ok-btn">Okay</button>
         <button name="clrp-close-btn">Close</button>
     </div>
@@ -179,8 +179,19 @@ class CLRPInput {
         var okbtn = cw.querySelector("button[name='clrp-ok-btn']");
         var closebtn = cw.querySelector("button[name='clrp-close-btn']");
 
+        var updatePropertiesFromText = function() {
+            var hslString = CLRP.color2hsl(text.value);
+            var hsl = CLRP.parseColor(hslString);
+            cw.style.setProperty("--clrp-hue", hsl.h);
+            cw.style.setProperty("--clrp-sat", hsl.s + "%");
+            cw.style.setProperty("--clrp-light", hsl.l + "%");
+            hueSlider.value = hsl.h;
+            satSlider.value = hsl.s;
+            lightSlider.value = hsl.l;
+        }
+
         // var because event listener context
-        var updateProperties = function() {
+        var updatePropertiesFromSlider = function() {
             var hsl = `hsl(${hueSlider.value}, ${satSlider.value}%, ${lightSlider.value}%)`;
             cw.style.setProperty("--clrp-hue", hueSlider.value);
             cw.style.setProperty("--clrp-sat", satSlider.value + "%");
@@ -188,19 +199,23 @@ class CLRPInput {
             text.value = CLRP.color2hex(hsl);
             text.dispatchEvent(new Event('change'));
         };
-        updateProperties();
-
-        hueSlider.addEventListener('change', updateProperties);
-        satSlider.addEventListener('change', updateProperties);
-        lightSlider.addEventListener('change', updateProperties);
-
+//        updatePropertiesFromSlider();
         text.value = this.value;
+        updatePropertiesFromText();
+
+        hueSlider.addEventListener('input', updatePropertiesFromSlider);
+        satSlider.addEventListener('input', updatePropertiesFromSlider);
+        lightSlider.addEventListener('input', updatePropertiesFromSlider);
+
         text.addEventListener('change', function(e) {
             // as long as somebody isn't inserting between window and button while
             // window is open, this should be fine.
             var c = this.parentElement.previousElementSibling;
             c.value = text.value;
             c.dispatchEvent(new Event('change'));
+
+            // leads to circular event listening?
+//            updatePropertiesFromText();
         });
 
         okbtn.addEventListener('click', function(e) {
@@ -358,9 +373,9 @@ CLRP.rgb2hsl = function(r, g, b) {
 CLRP.rgb2hex = function(r, g, b) {
     var result = {};
     result.format = "hex";
-    result.r = r.toString(16);
-    result.g = g.toString(16);
-    result.b = b.toString(16);
+    result.r = r.toString(16).padStart(2, "0");
+    result.g = g.toString(16).padStart(2, "0");
+    result.b = b.toString(16).padStart(2, "0");
     return result;
 }
 
@@ -370,6 +385,7 @@ CLRP.hex2rgb = function(hr, hg, hb) {
     result.r = parseInt(hr, 16);
     result.g = parseInt(hg, 16);
     result.b = parseInt(hb, 16);
+    return result;
 }
 
 CLRP.parseColor = function(color) {
