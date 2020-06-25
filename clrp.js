@@ -217,7 +217,7 @@ class CLRPInput {
             var c = this.parentElement.previousElementSibling;
             c.value = text.value;
             c.dispatchEvent(new Event('change'));
-            this.parentElement.remove();
+//            this.parentElement.remove();
         });
 
         closebtn.addEventListener('click', function(e) {

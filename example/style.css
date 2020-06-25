@@ -2,6 +2,13 @@ body {
     font-family: sans-serif;
 }
 
+pre {
+    width: auto;
+    white-space: pre-wrap;
+    background-color: #eeeeee;
+    padding: 0.5em;
+}
+
 #left {
     margin-right: 8em;
 }

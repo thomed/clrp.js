@@ -10,15 +10,66 @@
 <body>
     <div class="main-content">
         <header>
+            <hr />
             <h1>clrp.js</h1>
             <h5>
                 A standalone library for color picker inputs
             </h5>
+            <hr />
         </header>
+        <div>
+            <p>clrp.js is designed as a "drop in and forget about it" library.</p>
+
+            <p>
+                Once it is added to your page, you can set any &lt;input&gt; tags to be 
+                color pickers by simply adding the clrp class to the element:
+            </p>
+            <p>
+                <code>
+                    &lt;input class="clrp"&gt;
+                </code>
+            </p>
+            <input class="clrp">
+
+            <p>
+                clrp inputs will trigger regular onchange events so you can react to 
+                the events just like normal inputs:
+            </p>
+            <p>
+                <pre>
+&lt;p id="text-display"&gt;&lt;/p&gt;
+&lt;input class="clrp" id="my-clrp"&gt;
+&lt;script&gt;
+    var ptag = document.getElementById("text-display");
+    var myClrp = document.getElementById("my-clrp");
+
+    myClrp.addEventListener('change', function() {
+        ptag.innerText = "Color: " + myClrp.value;
+        ptag.style.color = myClrp.value;
+    });
+&lt;/script&gt;
+                </pre>
+            </p>
+
+            <p id="text-display">Color:</p>
+            <input class="clrp" id="my-clrp">
+            <script>
+                var ptag = document.getElementById("text-display");
+                var myClrp = document.getElementById("my-clrp");
+                
+                myClrp.addEventListener('change', function() {
+                    ptag.innerText = "Color: " +  myClrp.value;
+                    ptag.style.color = myClrp.value;
+                });
+            </script>
+        </div>
+
+        <!--
         <label class="label-top" for="left">Left: <span id="test-left"></span></label>
         <input id="left" class="clrp input-label-top" value="#00aaff">
         <label class="label-top" for="right">Right: <span id="test-right"></span></label>
         <input id="right" class="clrp input-label-top">
+        -->
     </div>
 
     <script>
