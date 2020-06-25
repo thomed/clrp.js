@@ -153,7 +153,8 @@ class CLRPInput {
         this.element.setAttribute("type", "button");
         this.element.addEventListener("click", this.setOpen);
         this.element.addEventListener("change", function(e) {
-            this.setAttribute("style", "background-color: " + this.value + "; color: " + this.value + ";");
+            this.style.backgroundColor = this.value;
+            this.style.color = this.value;
         });
 
         // apply existing color value or make default

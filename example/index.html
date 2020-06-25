@@ -33,11 +33,11 @@
                 <h3>Basic Usage</h3>
                 <h5><u>Code:</u></h5>
 <pre><code>&lt;p id="my-text"&gt;Color:&lt;/p&gt;
-&lt;input class="clrp" id="my-clrp" value="#5500cc"&gt;
+&lt;input class="clrp" id="my-clrp" value="#5500cc" style="width: 5em;&gt;
 &lt;script&gt;
     var myClrp = document.getElementById("my-clrp");
     var text = document.getElementById("my-text");
-    
+
     myClrp.addEventListener('change', function() {
         text.innerText = "Color: " + myClrp.value;
         text.style.color = myClrp.value;
@@ -46,7 +46,7 @@
 </code></pre>
                 <h5><u>Result:</u></h5>
                 <p id="my-text">Color:</p>
-                <input class="clrp" id="my-clrp" value="#5500cc">
+                <input class="clrp" id="my-clrp" value="#5500cc" style="width: 5em;">
             </div>
 
         </div>
