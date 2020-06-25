@@ -179,6 +179,10 @@ class CLRPInput {
         var okbtn = cw.querySelector("button[name='clrp-ok-btn']");
         var closebtn = cw.querySelector("button[name='clrp-close-btn']");
 
+        // set window position next to clrp input element
+        cw.style.left = this.clientWidth + this.offsetLeft + 5 + "px";
+        cw.style.top = this.offsetTop + "px";
+
         var updatePropertiesFromText = function(event) {
             var hslString = CLRP.color2hsl(text.value);
             var hsl = CLRP.parseColor(hslString);
