@@ -171,6 +171,7 @@ class CLRPInput {
     setOpen(event) {
         this.insertAdjacentHTML("afterend", clrpWindow);
         var cw = this.nextElementSibling;
+        var colorView = cw.querySelector("div[name='clrp-current'");
         var text = cw.querySelector("input[name='clrp-text']");
         var hueSlider = cw.querySelector("input[name='clrp-hue-slider");
         var satSlider = cw.querySelector("input[name='clrp-sat-slider");
@@ -180,9 +181,12 @@ class CLRPInput {
 
         // var because event listener context
         var updateProperties = function() {
+            var hsl = `hsl(${hueSlider.value}, ${satSlider.value}%, ${lightSlider.value}%)`;
             cw.style.setProperty("--clrp-hue", hueSlider.value);
             cw.style.setProperty("--clrp-sat", satSlider.value + "%");
             cw.style.setProperty("--clrp-light", lightSlider.value + "%");
+            text.value = CLRP.color2hex(hsl);
+            text.dispatchEvent(new Event('change'));
         };
         updateProperties();
 
@@ -231,7 +235,7 @@ CLRP.color2hex = function(c) {
     }
     
     if (color.format == "hsl") {
-        rgb = CLRP.hsl2rgb(color.h, color.s, color.l);
+        var rgb = CLRP.hsl2rgb(color.h, color.s, color.l);
         hex = CLRP.rgb2hex(rgb.r, rgb.g, rgb.b);
     }
 
@@ -250,7 +254,7 @@ CLRP.color2hsl = function(c) {
     }
 
     if (color.format == 'hex') {
-        rgb = CLRP.hex2rgb(color.r, color.g, color.b);
+        var rgb = CLRP.hex2rgb(color.r, color.g, color.b);
         hsl = CLRP.rgb2hsl(rgb.r, rgb.g, rgb.b);
     }
 
@@ -361,7 +365,6 @@ CLRP.rgb2hex = function(r, g, b) {
 }
 
 CLRP.hex2rgb = function(hr, hg, hb) {
-//    return `rgb(${parseInt(hr, 16)}, ${parseInt(hg, 16)}, ${parseInt(hb, 16)})`;
     var result = {};
     result.format = "rgb";
     result.r = parseInt(hr, 16);
@@ -395,6 +398,6 @@ CLRP.parseColor = function(color) {
         result.format = "unknown";
     }
 
-    console.log(result);
+//    console.log(result);
     return result;
 };
