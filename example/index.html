@@ -4,26 +4,22 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>clrp example</title>
-    <style>
-        #left {
-            margin-right: 8em;
-        }
-
-        .input-label-top {
-            margin-top: 1.5em;
-        }
-
-        .label-top {
-            position: absolute;
-        }
-    </style>
+    <link href="./style.css" rel="stylesheet">
 </head>
 
 <body>
-    <label class="label-top" for="left">Left: <span id="test-left"></span></label>
-    <input id="left" class="clrp input-label-top" value="#00aaff">
-    <label class="label-top" for="right">Right: <span id="test-right"></span></label>
-    <input id="right" class="clrp input-label-top">
+    <div class="main-content">
+        <header>
+            <h1>clrp.js</h1>
+            <h5>
+                A standalone library for color picker inputs
+            </h5>
+        </header>
+        <label class="label-top" for="left">Left: <span id="test-left"></span></label>
+        <input id="left" class="clrp input-label-top" value="#00aaff">
+        <label class="label-top" for="right">Right: <span id="test-right"></span></label>
+        <input id="right" class="clrp input-label-top">
+    </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {

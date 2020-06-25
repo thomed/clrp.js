@@ -179,7 +179,7 @@ class CLRPInput {
         var okbtn = cw.querySelector("button[name='clrp-ok-btn']");
         var closebtn = cw.querySelector("button[name='clrp-close-btn']");
 
-        var updatePropertiesFromText = function() {
+        var updatePropertiesFromText = function(event) {
             var hslString = CLRP.color2hsl(text.value);
             var hsl = CLRP.parseColor(hslString);
             cw.style.setProperty("--clrp-hue", hsl.h);
@@ -191,15 +191,20 @@ class CLRPInput {
         }
 
         // var because event listener context
-        var updatePropertiesFromSlider = function() {
+        var updatePropertiesFromSlider = function(event) {
             var hsl = `hsl(${hueSlider.value}, ${satSlider.value}%, ${lightSlider.value}%)`;
             cw.style.setProperty("--clrp-hue", hueSlider.value);
             cw.style.setProperty("--clrp-sat", satSlider.value + "%");
             cw.style.setProperty("--clrp-light", lightSlider.value + "%");
             text.value = CLRP.color2hex(hsl);
+
+            // prevent circular event
+            if (event.srcElement !== text) {
+//                console.log(text);
+//                text.dispatchEvent(new Event('change'));
+            }
             text.dispatchEvent(new Event('change'));
         };
-//        updatePropertiesFromSlider();
         text.value = this.value;
         updatePropertiesFromText();
 
@@ -214,8 +219,7 @@ class CLRPInput {
             c.value = text.value;
             c.dispatchEvent(new Event('change'));
 
-            // leads to circular event listening?
-//            updatePropertiesFromText();
+//            updatePropertiesFromText(e);
         });
 
         okbtn.addEventListener('click', function(e) {
