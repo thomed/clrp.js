@@ -222,7 +222,12 @@ CLRP.hslRegex = /hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/g;
 CLRP.color2hex = function(c) {
     var color = CLRP.parseColor(c);
     if (color.format == "hex") {
-        return "#" + color.r + color.g + color.b;
+//        return "#" + color.r + color.g + color.b;
+        return c;
+    }
+
+    if (color.format == 'rgb') {
+
     }
     
     if (color.format == "hsl") {
@@ -232,16 +237,35 @@ CLRP.color2hex = function(c) {
 
 CLRP.color2hsl = function(c) {
     var color = CLRP.parseColor(c);
-    console.log(color);
+    if (color.format == 'hsl') {
+        return c;
+    }
+
+    if (color.format == 'rgb') {
+        var hsl = CLRP.rgb2hsl(color.r, color.g, color.b);
+        return `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+    }
+
+    if (color.format == 'hex') {
+
+    }
 };
 
 CLRP.color2rgb = function(c) {
     var color = CLRP.parseColor(c);
+
+    if (color.format == 'rgb') {
+        return c;
+    }
+
     if (color.format == 'hsl') {
         var r = CLRP.hsl2rgb(color.h, color.s, color.l);
         return `rgb(${r.r}, ${r.g}, ${r.b})`;
     }
-    console.log(color);
+
+    if (color.format == 'hex') {
+
+    }
 };
 
 // adapted from hsl wikipedia page
@@ -282,6 +306,41 @@ CLRP.hsl2rgb = function(h, s, l) {
     result.r = Math.round((m + rgb[0]) * 255);
     result.g = Math.round((m + rgb[1]) * 255);
     result.b = Math.round((m + rgb[2]) * 255);
+    return result;
+}
+
+CLRP.rgb2hsl = function(r, g, b) {
+    var rp = r / 255;
+    var gp = g / 255;
+    var bp = b / 255;
+    var cmax = Math.max(rp, gp, bp);
+    var cmin = Math.min(rp, gp, bp);
+    var delta = cmax - cmin;
+    var result = {};
+
+    var h, s, l;
+    if (delta == 0) {
+        h = 0;
+    } else if (cmax == rp) {
+        h = 60 * (((gp - bp) / delta) % 6);
+    } else if (cmax == gp) {
+        h = 60 * (((bp - rp) / delta) + 2);
+    } else if (cmax == bp) {
+        h = 60 * (((rp - gp) / delta) + 4);
+    }
+
+    l = (cmax + cmin) / 2;
+
+    if (delta == 0) {
+        s = 0;
+    } else {
+        s = delta / (1 - Math.abs(2 * l - 1));
+    }
+
+    result.format = "hsl";
+    result.h = Math.round(h);
+    result.s = Math.round(s * 100);
+    result.l = Math.round(l * 100);
     return result;
 }
 
