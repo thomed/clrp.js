@@ -179,10 +179,20 @@ class CLRPInput {
         var lightSlider = cw.querySelector("input[name='clrp-light-slider");
         var okbtn = cw.querySelector("button[name='clrp-ok-btn']");
         var closebtn = cw.querySelector("button[name='clrp-close-btn']");
+        var rect = this.getBoundingClientRect();
 
-        // set window position next to clrp input element
-        cw.style.left = this.clientWidth + this.offsetLeft + 5 + "px";
-        cw.style.top = this.offsetTop + "px";
+        // force window in view
+        if (window.innerHeight - rect.bottom < cw.clientHeight) {
+            cw.style.top = this.offsetTop + this.clientHeight - cw.clientHeight + "px";
+        } else {
+            cw.style.top = this.offsetTop + "px";
+        }
+
+        if (window.innerWidth - rect.right < cw.clientWidth) {
+            cw.style.left = this.offsetLeft - cw.clientWidth + "px";
+        } else {
+            cw.style.left = this.clientWidth + this.offsetLeft + 5 + "px";
+        }
 
         var updatePropertiesFromText = function(event) {
             var hslString = CLRP.color2hsl(text.value);
