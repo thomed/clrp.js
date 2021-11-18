@@ -40,12 +40,9 @@ class CLRP {
 
     init() {
         var inputs = document.getElementsByClassName("clrp");
-        this.clrps = [];
 
-        for (var i = 0; i < inputs.length; i++) {
-            var element = new CLRPInput(inputs[i]);
-            this.clrps.push(element);
-        }
+        // convert each input to a clrp input
+        this.clrps = [...inputs].map((i) => new CLRPInput(i));
     }
 
     // add default styles to page head
@@ -61,6 +58,10 @@ class CLRP {
                 height: 2em;
                 width: 2em;
                 padding: 0;
+            }
+
+            .clrp:focus {
+                outline: none;
             }
 
             .clrp-window {
@@ -150,7 +151,6 @@ class CLRP {
 class CLRPInput {
     constructor(element) {
         this.element = element;
-        this.element.setAttribute("type", "button");
         this.element.addEventListener("click", this.setOpen);
         this.element.addEventListener("change", function(e) {
             this.style.backgroundColor = this.value;
@@ -195,6 +195,7 @@ class CLRPInput {
         }
 
         var updatePropertiesFromText = function(event) {
+
             var hslString = CLRP.color2hsl(text.value);
             var hsl = CLRP.parseColor(hslString);
             cw.style.setProperty("--clrp-hue", hsl.h);
@@ -226,6 +227,7 @@ class CLRPInput {
 
         applybtn.addEventListener('click', function(e) {
             var c = this.parentElement.previousElementSibling;
+            c.setAttribute("value", text.value);
             c.value = text.value;
             c.dispatchEvent(new Event('change'));
         });
