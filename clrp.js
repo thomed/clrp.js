@@ -8,8 +8,8 @@ var clrpWindow = `
         <input class="clrp-hue-slider" name="clrp-hue-slider" type="range" min="0" max="360" step="1">
         <input class="clrp-sat-slider" name="clrp-sat-slider" type="range" min="0" max="100" step="1">
         <input class="clrp-light-slider" name="clrp-light-slider" type="range" min="0" max="100" step="1">
-        <button name="clrp-ok-btn">Okay</button>
-        <button name="clrp-close-btn">Close</button>
+        <button name="clrp-ok-btn" type="button">Apply</button>
+        <button name="clrp-close-btn" type="button">Close</button>
     </div>
 `;
 
@@ -177,7 +177,7 @@ class CLRPInput {
         var hueSlider = cw.querySelector("input[name='clrp-hue-slider");
         var satSlider = cw.querySelector("input[name='clrp-sat-slider");
         var lightSlider = cw.querySelector("input[name='clrp-light-slider");
-        var okbtn = cw.querySelector("button[name='clrp-ok-btn']");
+        var applybtn = cw.querySelector("button[name='clrp-ok-btn']");
         var closebtn = cw.querySelector("button[name='clrp-close-btn']");
         var rect = this.getBoundingClientRect();
 
@@ -224,11 +224,10 @@ class CLRPInput {
             updatePropertiesFromText(e);
         });
 
-        okbtn.addEventListener('click', function(e) {
+        applybtn.addEventListener('click', function(e) {
             var c = this.parentElement.previousElementSibling;
             c.value = text.value;
             c.dispatchEvent(new Event('change'));
-//            this.parentElement.remove();
         });
 
         closebtn.addEventListener('click', function(e) {
